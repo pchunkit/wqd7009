@@ -53,15 +53,15 @@ st.write('You selected:', select_movie)
 
 rslt_df = movie_data[movie_data['title'] == select_movie]
 
-st.dataframe(rslt_df["movie_id"])
+movie_id = rslt_df["movie_id"].values[0]
 
 #k-principal components to represent movies, movie_id to find recommendations, top_n print n results        
-#k = 50
-#top_n = 10
-#sliced = V.T[:, :k] # representative data
-#indexes = top_cosine_similarity(sliced, movie_id, top_n)
+k = 50
+top_n = 10
+sliced = V.T[:, :k] # representative data
+indexes = top_cosine_similarity(sliced, movie_id, top_n)
 
 #Printing the top N similar movies
-#print_similar_movies(movie_data, rslt_df["movie_id"], indexes)
+print_similar_movies(movie_data, rslt_df["movie_id"], indexes)
 
 
