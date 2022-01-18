@@ -7,7 +7,7 @@ st.title('Singular Value Decomposition (SVD) & Its Application In Recommender Sy
 
 @st.cache(hash_funcs={pd.DataFrame: lambda _: None})
 def load_data():
-    data = pd.io.parsers.read_csv('ratings.dat', 
+    data = pd.read_csv('ratings.dat', 
     names=['user_id', 'movie_id', 'rating', 'time'],
     encoding='ISO 8859-1',                          
     engine='python', delimiter='::')
@@ -15,7 +15,7 @@ def load_data():
 
 @st.cache(hash_funcs={pd.DataFrame: lambda _: None})
 def load_movie():
-    mdata = pd.io.parsers.read_csv('movies.dat',
+    mdata = pd.read_csv('movies.dat',
     names=['movie_id', 'title', 'genre'],
     encoding='ISO 8859-1',                                
     engine='python', delimiter='::')
