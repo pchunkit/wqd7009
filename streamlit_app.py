@@ -28,40 +28,8 @@ def load_data() :
 
         #Computing the Singular Value Decomposition (SVD)
         A = normalised_mat.T / np.sqrt(ratings_mat.shape[0] - 1)
-        V = np.linalg.svd(A)
-        return V
-
-@st.cache(ttl=3600, max_entries=10)
-def load_dataB() : 
-        #Creating the rating matrix (rows as movies, columns as users)
-        ratings_mat = np.ndarray(
-            shape=(np.max(data.movie_id.values), np.max(data.user_id.values)),
-            dtype=np.uint8)
-        ratings_mat[data.movie_id.values-1, data.user_id.values-1] = data.rating.values
-
-        #Normalizing the matrix(subtract mean off)
-        normalised_mat = ratings_mat - np.asarray([(np.mean(ratings_mat, 1))]).T
-
-        #Computing the Singular Value Decomposition (SVD)
-        A = normalised_mat.T / np.sqrt(ratings_mat.shape[0] - 1)
-        U= np.linalg.svd(A)
-        return U
-
-@st.cache(ttl=3600, max_entries=10)
-def load_dataC() : 
-        #Creating the rating matrix (rows as movies, columns as users)
-        ratings_mat = np.ndarray(
-            shape=(np.max(data.movie_id.values), np.max(data.user_id.values)),
-            dtype=np.uint8)
-        ratings_mat[data.movie_id.values-1, data.user_id.values-1] = data.rating.values
-
-        #Normalizing the matrix(subtract mean off)
-        normalised_mat = ratings_mat - np.asarray([(np.mean(ratings_mat, 1))]).T
-
-        #Computing the Singular Value Decomposition (SVD)
-        A = normalised_mat.T / np.sqrt(ratings_mat.shape[0] - 1)
-        V = np.linalg.svd(A)
-        return V
+        S,V,T = np.linalg.svd(A)
+        return S,V,T
 
 #Function to calculate the cosine similarity (sorting by most similar and returning the top N)
 def top_cosine_similarity(data, movie_id, top_n=10):
@@ -79,10 +47,7 @@ def print_similar_movies(movie_data, movie_id, top_indexes):
     for id in top_indexes + 1:
         st.write(movie_data[movie_data.movie_id == id].title.values[0])
 
-V = load_data();
-#load_dataB();
-#load_dataC();
-
+a = load_data();
 
 #-- Set time by GPS or event
 select_movie = st.sidebar.selectbox('Select/Search your movie',
@@ -94,7 +59,7 @@ try:
     #k-principal components to represent movies, movie_id to find recommendations, top_n print n results        
     k = 50
     top_n = 10
-    sliced = V.T[:, :k] # representative data
+    sliced = a.V.T[:, :k] # representative data
     indexes = top_cosine_similarity(sliced, movie_id, top_n)
 
     #Printing the top N similar movies
@@ -105,7 +70,7 @@ except:
     #k-principal components to represent movies, movie_id to find recommendations, top_n print n results        
     k = 50
     top_n = 10
-    sliced = V.T[:, :k] # representative data
+    sliced = a.V.T[:, :k] # representative data
     indexes = top_cosine_similarity(sliced, movie_id, top_n)
 
     #Printing the top N similar movies
