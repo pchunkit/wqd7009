@@ -43,11 +43,7 @@ def print_similar_movies(movie_data, movie_id, top_indexes):
     for id in top_indexes + 1:
         st.write(movie_data[movie_data.movie_id == id].title.values[0])
 
-#k-principal components to represent movies, movie_id to find recommendations, top_n print n results        
-k = 50
-top_n = 10
-sliced = V.T[:, :k] # representative data
-indexes = top_cosine_similarity(sliced, movie_id, top_n)
+
 
 #-- Set time by GPS or event
 select_movie = st.sidebar.selectbox('Select your movie',
@@ -58,6 +54,12 @@ st.write('You selected:', select_movie)
 rslt_df = movie_data[movie_data['title'] == select_movie]
 
 st.dataframe(rslt_df)
+
+#k-principal components to represent movies, movie_id to find recommendations, top_n print n results        
+#k = 50
+#top_n = 10
+#sliced = V.T[:, :k] # representative data
+#indexes = top_cosine_similarity(sliced, movie_id, top_n)
 
 #Printing the top N similar movies
 #print_similar_movies(movie_data, rslt_df["movie_id"], indexes)
