@@ -6,7 +6,7 @@ import streamlit as st
 st.title('Singular Value Decomposition (SVD) & Its Application In Recommender System')
 
 run_once = 0
-while run_once = 0:
+while run_once == 0:
     data = pd.io.parsers.read_csv('ratings.dat', 
     names=['user_id', 'movie_id', 'rating', 'time'],
     encoding='ISO 8859-1',                          
