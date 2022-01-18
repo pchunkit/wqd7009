@@ -1,6 +1,7 @@
 #Importing Libraries
 import numpy as np
 import pandas as pd
+import streamlit as st
 
 
 #Reading dataset (MovieLens 1M movie ratings dataset: downloaded from https://grouplens.org/datasets/movielens/1m/)
@@ -12,6 +13,10 @@ movie_data = pd.io.parsers.read_csv('movies.dat',
     names=['movie_id', 'title', 'genre'],
     encoding='ISO 8859-1',                                
     engine='python', delimiter='::')
+
+st.dataframe(data)
+
+st.dataframe(movie_data)
 
 
 #Creating the rating matrix (rows as movies, columns as users)
