@@ -47,12 +47,14 @@ def print_similar_movies(movie_data, movie_id, top_indexes):
 
 
 #-- Set time by GPS or event
-select_movie = st.sidebar.selectbox('Select your movie',
+select_movie = st.sidebar.selectbox('Select/Search your movie',
                                     movie_data["title"])
 
-rslt_df = movie_data[movie_data['title'] == select_movie]
+#rslt_df = movie_data[movie_data['title'] == select_movie]
 
-movie_id = rslt_df["movie_id"].values[0]
+movie_id =  1
+
+#rslt_df["movie_id"].values[0]
 
 #k-principal components to represent movies, movie_id to find recommendations, top_n print n results        
 k = 50
