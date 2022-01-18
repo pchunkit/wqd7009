@@ -30,8 +30,8 @@ def load_data() :
 
         #Computing the Singular Value Decomposition (SVD)
         A = normalised_mat.T / np.sqrt(ratings_mat.shape[0] - 1)
-        U, S, V = np.linalg.svd(A)
-        run_once = 1
+        return U, S, V = np.linalg.svd(A)
+        
 
 #Function to calculate the cosine similarity (sorting by most similar and returning the top N)
 def top_cosine_similarity(data, movie_id, top_n=10):
