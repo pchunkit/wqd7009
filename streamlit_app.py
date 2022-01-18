@@ -28,8 +28,8 @@ def load_data() :
 
         #Computing the Singular Value Decomposition (SVD)
         A = normalised_mat.T / np.sqrt(ratings_mat.shape[0] - 1)
-        U = np.linalg.svd(A)
-        return U
+        V = np.linalg.svd(A)
+        return V
 
 @st.cache(ttl=3600, max_entries=10)
 def load_dataB() : 
@@ -44,8 +44,8 @@ def load_dataB() :
 
         #Computing the Singular Value Decomposition (SVD)
         A = normalised_mat.T / np.sqrt(ratings_mat.shape[0] - 1)
-        S = np.linalg.svd(A)
-        return S
+        U= np.linalg.svd(A)
+        return U
 
 @st.cache(ttl=3600, max_entries=10)
 def load_dataC() : 
@@ -79,9 +79,9 @@ def print_similar_movies(movie_data, movie_id, top_indexes):
     for id in top_indexes + 1:
         st.write(movie_data[movie_data.movie_id == id].title.values[0])
 
-load_data();
-load_dataB();
-load_dataC();
+V = load_data();
+#load_dataB();
+#load_dataC();
 
 
 #-- Set time by GPS or event
