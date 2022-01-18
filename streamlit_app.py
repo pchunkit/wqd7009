@@ -76,8 +76,4 @@ except:
     k = 50
     top_n = 10
     sliced = V.T[:, :k] # representative data
-    indexes = top_cosine_similarity(sliced, movie_id, top_n)
-
-#Printing the top N similar movies
-print_similar_movies(movie_data, movie_id, indexes)
-    
+    indexes = top_cosine_similarity(sliced, movie_id, top_n)  
