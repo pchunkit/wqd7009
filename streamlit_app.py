@@ -5,28 +5,36 @@ import streamlit as st
 
 st.title('Singular Value Decomposition (SVD) & Its Application In Recommender System')
 
-#Reading dataset (MovieLens 1M movie ratings dataset: downloaded from https://grouplens.org/datasets/movielens/1m/)
-data = pd.io.parsers.read_csv('ratings.dat', 
+
+
+strain_load_state = st.text('Loading data...this may take a minute')
+try:
+    #Reading dataset (MovieLens 1M movie ratings dataset: downloaded from https://grouplens.org/datasets/movielens/1m/)
+    data = pd.io.parsers.read_csv('ratings.dat', 
     names=['user_id', 'movie_id', 'rating', 'time'],
     encoding='ISO 8859-1',                          
     engine='python', delimiter='::')
-movie_data = pd.io.parsers.read_csv('movies.dat',
+    movie_data = pd.io.parsers.read_csv('movies.dat',
     names=['movie_id', 'title', 'genre'],
     encoding='ISO 8859-1',                                
     engine='python', delimiter='::')
+    #Creating the rating matrix (rows as movies, columns as users)
+    ratings_mat = np.ndarray(
+        shape=(np.max(data.movie_id.values), np.max(data.user_id.values)),
+        dtype=np.uint8)
+    ratings_mat[data.movie_id.values-1, data.user_id.values-1] = data.rating.values
 
-#Creating the rating matrix (rows as movies, columns as users)
-ratings_mat = np.ndarray(
-    shape=(np.max(data.movie_id.values), np.max(data.user_id.values)),
-    dtype=np.uint8)
-ratings_mat[data.movie_id.values-1, data.user_id.values-1] = data.rating.values
+    #Normalizing the matrix(subtract mean off)
+    normalised_mat = ratings_mat - np.asarray([(np.mean(ratings_mat, 1))]).T
 
-#Normalizing the matrix(subtract mean off)
-normalised_mat = ratings_mat - np.asarray([(np.mean(ratings_mat, 1))]).T
-
-#Computing the Singular Value Decomposition (SVD)
-A = normalised_mat.T / np.sqrt(ratings_mat.shape[0] - 1)
-U, S, V = np.linalg.svd(A)
+    #Computing the Singular Value Decomposition (SVD)
+    A = normalised_mat.T / np.sqrt(ratings_mat.shape[0] - 1)
+    U, S, V = np.linalg.svd(A)
+except:
+    st.warning('{0} data are not available for time {1}.  Please try a different time and detector pair.'.format(detector, t0))
+    st.stop()
+    
+strain_load_state.text('Loading data...done!')
 
 #Function to calculate the cosine similarity (sorting by most similar and returning the top N)
 def top_cosine_similarity(data, movie_id, top_n=10):
