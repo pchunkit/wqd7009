@@ -55,4 +55,4 @@ indexes = top_cosine_similarity(sliced, movie_id, top_n)
 
 #-- Set time by GPS or event
 select_movie = st.sidebar.selectbox('Select your movie',
-                                    movie_data)
+                                    movie_data["title"])
