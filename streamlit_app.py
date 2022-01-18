@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
+st.title('Singular Value Decomposition (SVD) & Its Application In Recommender System')
 
 #Reading dataset (MovieLens 1M movie ratings dataset: downloaded from https://grouplens.org/datasets/movielens/1m/)
 data = pd.io.parsers.read_csv('ratings.dat', 
@@ -38,7 +39,7 @@ def top_cosine_similarity(data, movie_id, top_n=10):
 
 # Function to print top N similar movies
 def print_similar_movies(movie_data, movie_id, top_indexes):
-    st.write('Recommendations for {0}: \n'.format(
+    st.header("**Movie Recommendation for {}**".format(
     movie_data[movie_data.movie_id == movie_id].title.values[0]))
     for id in top_indexes + 1:
         st.write(movie_data[movie_data.movie_id == id].title.values[0])
