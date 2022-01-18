@@ -50,19 +50,17 @@ def print_similar_movies(movie_data, movie_id, top_indexes):
 select_movie = st.sidebar.selectbox('Select/Search your movie',
                                     movie_data["title"])
 
-#rslt_df = movie_data[movie_data['title'] == select_movie]
+rslt_df = movie_data[movie_data['title'] == select_movie]
 
-movie_id =  1
-
-#rslt_df["movie_id"].values[0]
+movie_id =  rslt_df["movie_id"].values[0]
 
 #k-principal components to represent movies, movie_id to find recommendations, top_n print n results        
 k = 50
 top_n = 10
 sliced = V.T[:, :k] # representative data
-#indexes = top_cosine_similarity(sliced, movie_id, top_n)
+indexes = top_cosine_similarity(sliced, movie_id, top_n)
 
 #Printing the top N similar movies
-#print_similar_movies(movie_data, movie_id, indexes)
+print_similar_movies(movie_data, movie_id, indexes)
 
 
