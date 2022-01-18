@@ -63,7 +63,7 @@ try:
 
     #Printing the top N similar movies
     print_similar_movies(movie_data, movie_id, indexes)
-except
+except:
     rslt_df = movie_data[movie_data['title'] == select_movie]
     movie_id = 1
     #k-principal components to represent movies, movie_id to find recommendations, top_n print n results        
