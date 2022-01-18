@@ -5,30 +5,31 @@ import streamlit as st
 
 st.title('Singular Value Decomposition (SVD) & Its Application In Recommender System')
 
-@st.cache(ttl=3600, max_entries=10)  
-run_once = 0
-while run_once == 0:
-    data = pd.io.parsers.read_csv('ratings.dat', 
-    names=['user_id', 'movie_id', 'rating', 'time'],
-    encoding='ISO 8859-1',                          
-    engine='python', delimiter='::')
-    movie_data = pd.io.parsers.read_csv('movies.dat',
-    names=['movie_id', 'title', 'genre'],
-    encoding='ISO 8859-1',                                
-    engine='python', delimiter='::')
-    #Creating the rating matrix (rows as movies, columns as users)
-    ratings_mat = np.ndarray(
-        shape=(np.max(data.movie_id.values), np.max(data.user_id.values)),
-        dtype=np.uint8)
-    ratings_mat[data.movie_id.values-1, data.user_id.values-1] = data.rating.values
+@st.cache(ttl=3600, max_entries=10)
+def load_data() : 
+    run_once = 0
+    while run_once == 0:
+        data = pd.io.parsers.read_csv('ratings.dat', 
+        names=['user_id', 'movie_id', 'rating', 'time'],
+        encoding='ISO 8859-1',                          
+        engine='python', delimiter='::')
+        movie_data = pd.io.parsers.read_csv('movies.dat',
+        names=['movie_id', 'title', 'genre'],
+        encoding='ISO 8859-1',                                
+        engine='python', delimiter='::')
+        #Creating the rating matrix (rows as movies, columns as users)
+        ratings_mat = np.ndarray(
+            shape=(np.max(data.movie_id.values), np.max(data.user_id.values)),
+            dtype=np.uint8)
+        ratings_mat[data.movie_id.values-1, data.user_id.values-1] = data.rating.values
 
-    #Normalizing the matrix(subtract mean off)
-    normalised_mat = ratings_mat - np.asarray([(np.mean(ratings_mat, 1))]).T
+        #Normalizing the matrix(subtract mean off)
+        normalised_mat = ratings_mat - np.asarray([(np.mean(ratings_mat, 1))]).T
 
-    #Computing the Singular Value Decomposition (SVD)
-    A = normalised_mat.T / np.sqrt(ratings_mat.shape[0] - 1)
-    U, S, V = np.linalg.svd(A)
-    run_once = 1
+        #Computing the Singular Value Decomposition (SVD)
+        A = normalised_mat.T / np.sqrt(ratings_mat.shape[0] - 1)
+        U, S, V = np.linalg.svd(A)
+        run_once = 1
 
 #Function to calculate the cosine similarity (sorting by most similar and returning the top N)
 def top_cosine_similarity(data, movie_id, top_n=10):
@@ -46,7 +47,7 @@ def print_similar_movies(movie_data, movie_id, top_indexes):
     for id in top_indexes + 1:
         st.write(movie_data[movie_data.movie_id == id].title.values[0])
 
-
+load_data();
 
 #-- Set time by GPS or event
 select_movie = st.sidebar.selectbox('Select/Search your movie',
