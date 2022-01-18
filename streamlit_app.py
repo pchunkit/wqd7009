@@ -53,7 +53,7 @@ st.write('You selected:', select_movie)
 
 rslt_df = movie_data[movie_data['title'] == select_movie]
 
-st.dataframe(rslt_df)
+st.dataframe(rslt_df["movie_id"])
 
 #k-principal components to represent movies, movie_id to find recommendations, top_n print n results        
 #k = 50
