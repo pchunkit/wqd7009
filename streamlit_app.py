@@ -5,31 +5,36 @@ import streamlit as st
 
 st.title('Singular Value Decomposition (SVD) & Its Application In Recommender System')
 
-data = pd.io.parsers.read_csv('ratings.dat', 
-names=['user_id', 'movie_id', 'rating', 'time'],
-encoding='ISO 8859-1',                          
-engine='python', delimiter='::')
 
-movie_data = pd.io.parsers.read_csv('movies.dat',
-names=['movie_id', 'title', 'genre'],
-encoding='ISO 8859-1',                                
-engine='python', delimiter='::')
-        
-@st.cache(ttl=3600, max_entries=10)
-def load_data() : 
-        #Creating the rating matrix (rows as movies, columns as users)
-        ratings_mat = np.ndarray(
-            shape=(np.max(data.movie_id.values), np.max(data.user_id.values)),
-            dtype=np.uint8)
-        ratings_mat[data.movie_id.values-1, data.user_id.values-1] = data.rating.values
 
-        #Normalizing the matrix(subtract mean off)
-        normalised_mat = ratings_mat - np.asarray([(np.mean(ratings_mat, 1))]).T
+strain_load_state = st.text('Loading data...this may take a minute')
+try:
+    #Reading dataset (MovieLens 1M movie ratings dataset: downloaded from https://grouplens.org/datasets/movielens/1m/)
+    data = pd.io.parsers.read_csv('ratings.dat', 
+    names=['user_id', 'movie_id', 'rating', 'time'],
+    encoding='ISO 8859-1',                          
+    engine='python', delimiter='::')
+    movie_data = pd.io.parsers.read_csv('movies.dat',
+    names=['movie_id', 'title', 'genre'],
+    encoding='ISO 8859-1',                                
+    engine='python', delimiter='::')
+    #Creating the rating matrix (rows as movies, columns as users)
+    ratings_mat = np.ndarray(
+        shape=(np.max(data.movie_id.values), np.max(data.user_id.values)),
+        dtype=np.uint8)
+    ratings_mat[data.movie_id.values-1, data.user_id.values-1] = data.rating.values
 
-        #Computing the Singular Value Decomposition (SVD)
-        A = normalised_mat.T / np.sqrt(ratings_mat.shape[0] - 1)
-        S,V,T = np.linalg.svd(A)
-        return S,V,T
+    #Normalizing the matrix(subtract mean off)
+    normalised_mat = ratings_mat - np.asarray([(np.mean(ratings_mat, 1))]).T
+
+    #Computing the Singular Value Decomposition (SVD)
+    A = normalised_mat.T / np.sqrt(ratings_mat.shape[0] - 1)
+    U, S, V = np.linalg.svd(A)
+except:
+    st.warning('{0} data are not available for time {1}.  Please try a different time and detector pair.'.format(detector, t0))
+    st.stop()
+    
+strain_load_state.text('Loading data...done!')
 
 #Function to calculate the cosine similarity (sorting by most similar and returning the top N)
 def top_cosine_similarity(data, movie_id, top_n=10):
@@ -47,33 +52,21 @@ def print_similar_movies(movie_data, movie_id, top_indexes):
     for id in top_indexes + 1:
         st.write(movie_data[movie_data.movie_id == id].title.values[0])
 
-a = load_data();
+
 
 #-- Set time by GPS or event
 select_movie = st.sidebar.selectbox('Select/Search your movie',
                                     movie_data["title"])
 
-try:
-    rslt_df = movie_data[movie_data['title'] == select_movie]
-    movie_id =  rslt_df["movie_id"].values[0]
-    #k-principal components to represent movies, movie_id to find recommendations, top_n print n results        
-    k = 50
-    top_n = 10
-    sliced = a.V.T[:, :k] # representative data
-    indexes = top_cosine_similarity(sliced, movie_id, top_n)
+rslt_df = movie_data[movie_data['title'] == select_movie]
 
-    #Printing the top N similar movies
-    print_similar_movies(movie_data, movie_id, indexes)
-except:
-    rslt_df = movie_data[movie_data['title'] == select_movie]
-    movie_id = 1
-    #k-principal components to represent movies, movie_id to find recommendations, top_n print n results        
-    k = 50
-    top_n = 10
-    sliced = a.V.T[:, :k] # representative data
-    indexes = top_cosine_similarity(sliced, movie_id, top_n)
+movie_id =  rslt_df["movie_id"].values[0]
 
-    #Printing the top N similar movies
-    print_similar_movies(movie_data, movie_id, indexes)
+#k-principal components to represent movies, movie_id to find recommendations, top_n print n results        
+k = 50
+top_n = 10
+sliced = V.T[:, :k] # representative data
+indexes = top_cosine_similarity(sliced, movie_id, top_n)
 
-
+#Printing the top N similar movies
+print_similar_movies(movie_data, movie_id, indexes)
