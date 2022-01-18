@@ -14,11 +14,6 @@ movie_data = pd.io.parsers.read_csv('movies.dat',
     encoding='ISO 8859-1',                                
     engine='python', delimiter='::')
 
-st.dataframe(data)
-
-st.dataframe(movie_data)
-
-
 #Creating the rating matrix (rows as movies, columns as users)
 ratings_mat = np.ndarray(
     shape=(np.max(data.movie_id.values), np.max(data.user_id.values)),
@@ -43,10 +38,10 @@ def top_cosine_similarity(data, movie_id, top_n=10):
 
 # Function to print top N similar movies
 def print_similar_movies(movie_data, movie_id, top_indexes):
-    print('Recommendations for {0}: \n'.format(
+    st.write('Recommendations for {0}: \n'.format(
     movie_data[movie_data.movie_id == movie_id].title.values[0]))
     for id in top_indexes + 1:
-        print(movie_data[movie_data.movie_id == id].title.values[0])
+        st.write(movie_data[movie_data.movie_id == id].title.values[0])
 
 #k-principal components to represent movies, movie_id to find recommendations, top_n print n results        
 k = 50
