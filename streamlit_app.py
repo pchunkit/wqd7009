@@ -5,6 +5,10 @@ import streamlit as st
 
 st.title('Singular Value Decomposition (SVD) & Its Application In Recommender System')
 
+# --- Initialising SessionState ---
+if "load_state" not in st.session_state:
+     st.session_state.load_state = False   
+        
 @st.cache(hash_funcs={pd.DataFrame: lambda _: None})
 def load_data():
     data = pd.read_csv('ratings.dat', 
@@ -21,8 +25,10 @@ def load_movie():
     engine='python', delimiter='::')
     return mdata
 
-data = load_data()
-movie_data = load_movie()
+if st.button('Initialize') or st.session_state.load_state:
+    st.session_state.load_state = True
+    data = load_data()
+    movie_data = load_movie()
 
 #Creating the rating matrix (rows as movies, columns as users)
 ratings_mat = np.ndarray(
