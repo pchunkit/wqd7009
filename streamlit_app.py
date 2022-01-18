@@ -57,7 +57,9 @@ st.write('You selected:', select_movie)
 
 rslt_df = movie_data[movie_data['title'] == select_movie]
 
+st.dataframe(rslt_df)
+
 #Printing the top N similar movies
-print_similar_movies(movie_data, rslt_df["movie_id"], indexes)
+#print_similar_movies(movie_data, rslt_df["movie_id"], indexes)
 
 
