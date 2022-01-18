@@ -4,10 +4,10 @@ import pandas as pd
 
 
 #Reading dataset (MovieLens 1M movie ratings dataset: downloaded from https://grouplens.org/datasets/movielens/1m/)
-data = pd.io.parsers.read_csv('data/ratings.dat', 
+data = pd.io.parsers.read_csv('ratings.dat', 
     names=['user_id', 'movie_id', 'rating', 'time'],
     engine='python', delimiter='::')
-movie_data = pd.io.parsers.read_csv('data/movies.dat',
+movie_data = pd.io.parsers.read_csv('movies.dat',
     names=['movie_id', 'title', 'genre'],
     engine='python', delimiter='::')
 
