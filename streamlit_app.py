@@ -50,8 +50,6 @@ def print_similar_movies(movie_data, movie_id, top_indexes):
 select_movie = st.sidebar.selectbox('Select your movie',
                                     movie_data["title"])
 
-st.write('You selected:', select_movie)
-
 rslt_df = movie_data[movie_data['title'] == select_movie]
 
 movie_id = rslt_df["movie_id"].values[0]
