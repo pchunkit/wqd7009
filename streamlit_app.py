@@ -5,18 +5,20 @@ import streamlit as st
 
 st.title('Singular Value Decomposition (SVD) & Its Application In Recommender System')
 
+data = pd.io.parsers.read_csv('ratings.dat', 
+names=['user_id', 'movie_id', 'rating', 'time'],
+encoding='ISO 8859-1',                          
+engine='python', delimiter='::')
+
+movie_data = pd.io.parsers.read_csv('movies.dat',
+names=['movie_id', 'title', 'genre'],
+encoding='ISO 8859-1',                                
+engine='python', delimiter='::')
+        
 @st.cache(ttl=3600, max_entries=10)
 def load_data() : 
     run_once = 0
     while run_once == 0:
-        data = pd.io.parsers.read_csv('ratings.dat', 
-        names=['user_id', 'movie_id', 'rating', 'time'],
-        encoding='ISO 8859-1',                          
-        engine='python', delimiter='::')
-        movie_data = pd.io.parsers.read_csv('movies.dat',
-        names=['movie_id', 'title', 'genre'],
-        encoding='ISO 8859-1',                                
-        engine='python', delimiter='::')
         #Creating the rating matrix (rows as movies, columns as users)
         ratings_mat = np.ndarray(
             shape=(np.max(data.movie_id.values), np.max(data.user_id.values)),
