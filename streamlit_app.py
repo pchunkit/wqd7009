@@ -15,11 +15,11 @@ def load_data():
 
 @st.cache(persist=True)
 def load_movie():
-    data = pd.io.parsers.read_csv('movies.dat',
+    mdata = pd.io.parsers.read_csv('movies.dat',
     names=['movie_id', 'title', 'genre'],
     encoding='ISO 8859-1',                                
     engine='python', delimiter='::')
-    return data
+    return mdata
 
 data = load_data()
 movie_data = load_movie()
@@ -58,6 +58,8 @@ def print_similar_movies(movie_data, movie_id, top_indexes):
 #-- Set time by GPS or event
 select_movie = st.sidebar.selectbox('Select/Search your movie',
                                     movie_data["title"])
+
+
 try:
     rslt_df = movie_data[movie_data['title'] == select_movie]
     movie_id =  rslt_df["movie_id"].values[0]
@@ -66,7 +68,6 @@ try:
     top_n = 10
     sliced = V.T[:, :k] # representative data
     indexes = top_cosine_similarity(sliced, movie_id, top_n)
-
     #Printing the top N similar movies
     print_similar_movies(movie_data, movie_id, indexes)
 except:
@@ -77,3 +78,4 @@ except:
     top_n = 10
     sliced = V.T[:, :k] # representative data
     indexes = top_cosine_similarity(sliced, movie_id, top_n)  
+    print_similar_movies(movie_data, movie_id, indexes)
