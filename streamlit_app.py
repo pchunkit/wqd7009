@@ -37,7 +37,7 @@ else:
     A = normalised_mat.T / np.sqrt(ratings_mat.shape[0] - 1)
     U, S, V = np.linalg.svd(A)
     svd_matrix = V
-    np.save("svd_matrix", self.svd_matrix)
+    np.save("svd_matrix", svd_matrix)
             
 
 #Function to calculate the cosine similarity (sorting by most similar and returning the top N)
