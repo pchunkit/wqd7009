@@ -61,7 +61,7 @@ def findmovie( matrix, movie_id, nr ) :
 def print_similar_movies(movie_data, movie_id, top_indexes):
     st.header("**Movie Recommendation for {}**".format(
     movie_data[movie_data.movie_id == movie_id].title.values[0]))
-    for id in top_indexes + 1:
+    for id in top_indexes + 2:
         st.write(movie_data[movie_data.movie_id == id].title.values[0])
 
 #-- Select movie
@@ -69,12 +69,12 @@ select_movie = st.sidebar.selectbox('Select/Search your movie',
                                     movie_data["title"])
 
 #-- Select nr of result
-nr = st.sidebar.slider('Nr of Result', 1, 20)
+nr = st.sidebar.slider('Nr of Result', 10, 20)
 
 rslt_df = movie_data[movie_data['title'] == select_movie]
 movie_id =  rslt_df["movie_id"].values[0]
 
-result_i = findmovie(svd_matrix, movie_id )
+result_i = findmovie(svd_matrix, movie_id, nr )
 
 #Printing the top N similar movies
 print_similar_movies(movie_data, movie_id, result_i)
