@@ -3,11 +3,6 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 import os
-import surprise 
-import sklearn
-from surprise import SVD, Reader, Dataset, accuracy
-from surprise.model_selection import cross_validate
-from sklearn.model_selection import train_test_split
 
 st.title('What do you want to watch today ? 🎬')
 
@@ -92,10 +87,3 @@ result_i = findmovie(svd_matrix, movie_id, nr )
 
 #Printing the top N similar movies
 print_similar_movies(movie_data, movie_id, result_i)
-
-
-
-data = Dataset.load_builtin('ml-100k')
-reader = Reader(rating_scale=(0.5, 5))
-algo = SVD()
-cross_validate(algo, data, measures=['RMSE','MAE'], cv=5, verbose=True)
