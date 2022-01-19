@@ -71,7 +71,7 @@ def print_similar_movies(movie_data, movie_id, top_indexes):
     movie_data[movie_data.movie_id == movie_id].title.values[0]))
     st.subheader("***Genre : {}***".format(movie_data[movie_data.movie_id == movie_id].genre.values[0]))
     for id in top_indexes + 2:
-        st.write(movie_data[movie_data.movie_id == id].title.values[0], movie_data[movie_data.movie_id == id].genre.values[0]  )
+        st.write("****"movie_data[movie_data.movie_id == id].title.values[0]"****", movie_data[movie_data.movie_id == id].genre.values[0]  )
 
 #-- Select movie
 select_movie = st.sidebar.selectbox('Select/Search your movie',
