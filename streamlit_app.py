@@ -9,14 +9,14 @@ st.title(' 🎬 What do you want to watch tonight ? 🎬')
 def load_data():
     data = pd.io.parsers.read_csv('ratings.dat', 
     names=['user_id', 'movie_id', 'rating', 'time'],
-    encoding='ISO 8859-1',                          
+    encoding='unicode_escape',                          
     engine='python', delimiter='::')
     return data
 
 def load_movie():
     mdata = pd.io.parsers.read_csv('movies.dat',
     names=['movie_id', 'title', 'genre'],
-    encoding='ISO 8859-1',                                
+    encoding='unicode_escape',                                
     engine='python', delimiter='::')
     return mdata
 
