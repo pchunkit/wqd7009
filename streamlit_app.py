@@ -56,6 +56,7 @@ def findmovie( matrix, movie_id ) :
     top_n = 10
     sliced = matrix.T[:, :k] # representative data
     indexes = top_cosine_similarity(sliced, movie_id, top_n)
+    return indexes
     
 # Function to print top N similar movies
 def print_similar_movies(movie_data, movie_id, top_indexes):
@@ -72,7 +73,7 @@ select_movie = st.sidebar.selectbox('Select/Search your movie',
 rslt_df = movie_data[movie_data['title'] == select_movie]
 movie_id =  rslt_df["movie_id"].values[0]
 
-findmovie(svd_matrix, movie_id )
+result_i = findmovie(svd_matrix, movie_id )
 
 #Printing the top N similar movies
-print_similar_movies(movie_data, movie_id, indexes)
+print_similar_movies(movie_data, movie_id, result_i)
