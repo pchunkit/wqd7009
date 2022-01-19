@@ -3,6 +3,8 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 import os
+import surprise 
+import scikit-learn
 from surprise import SVD, Reader, Dataset, accuracy
 from surprise.model_selection import cross_validate
 from sklearn.model_selection import train_test_split
