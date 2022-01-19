@@ -69,7 +69,7 @@ select_movie = st.sidebar.selectbox('Select/Search your movie',
                                     movie_data["title"])
 
 #-- Select nr of result
-nr = st.sidebar.selectbox('No. of Result',["10","5","15",20"])
+nr = st.sidebar.slider('Nr of Result', 1, 20)
 
 rslt_df = movie_data[movie_data['title'] == select_movie]
 movie_id =  rslt_df["movie_id"].values[0]
