@@ -5,7 +5,7 @@ import streamlit as st
 
 st.title('Singular Value Decomposition (SVD) & Its Application In Recommender System')
 
-@st.cache(hash_funcs={pd.DataFrame: lambda _: None})
+@st.experimental_memo
 def load_data():
     data = pd.read_csv('ratings.dat', 
     names=['user_id', 'movie_id', 'rating', 'time'],
@@ -13,7 +13,7 @@ def load_data():
     engine='python', delimiter='::')
     return data
 
-@st.cache(hash_funcs={pd.DataFrame: lambda _: None})
+@st.experimental_memo
 def load_movie():
     mdata = pd.read_csv('movies.dat',
     names=['movie_id', 'title', 'genre'],
