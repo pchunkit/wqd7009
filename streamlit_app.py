@@ -4,7 +4,7 @@ import pandas as pd
 import streamlit as st
 import os
 
-st.title(' 🎬 What do you want to watch tonight ? 🎬')
+st.title('What do you want to watch tonight ? 🎬')
 
 def load_data():
     data = pd.io.parsers.read_csv('ratings.dat', 
@@ -50,12 +50,11 @@ def top_cosine_similarity(data, movie_id, top_n=10):
     return sort_indexes[:top_n]
 
 # Function to find movie
-def findmovie( matrix, movie_id ) :
+def findmovie( matrix, movie_id, nr ) :
     #k-principal components to represent movies, movie_id to find recommendations, top_n print n results        
     k = 50
-    top_n = 10
     sliced = matrix.T[:, :k] # representative data
-    indexes = top_cosine_similarity(sliced, movie_id, top_n)
+    indexes = top_cosine_similarity(sliced, movie_id, nr)
     return indexes
     
 # Function to print top N similar movies
@@ -65,10 +64,12 @@ def print_similar_movies(movie_data, movie_id, top_indexes):
     for id in top_indexes + 1:
         st.write(movie_data[movie_data.movie_id == id].title.values[0])
 
-#-- Set time by GPS or event
+#-- Select movie
 select_movie = st.sidebar.selectbox('Select/Search your movie',
                                     movie_data["title"])
 
+#-- Select nr of result
+nr = st.sidebar.selectbox('No. of Result',["10","5","15",20"])
 
 rslt_df = movie_data[movie_data['title'] == select_movie]
 movie_id =  rslt_df["movie_id"].values[0]
