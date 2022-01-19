@@ -52,7 +52,7 @@ def top_cosine_similarity(data, movie_id, top_n=10):
     return sort_indexes[:top_n]
 
 # Function to find movie
-def findmovie( matrix, movie_id )
+def findmovie( matrix, movie_id ) :
     #k-principal components to represent movies, movie_id to find recommendations, top_n print n results        
     k = 50
     top_n = 10
