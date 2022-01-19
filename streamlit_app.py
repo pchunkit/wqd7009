@@ -2,7 +2,9 @@
 import numpy as np
 import pandas as pd
 import streamlit as st
-
+    st.code(
+        "pip install streamlit --upgrade"
+    )
 st.title('Singular Value Decomposition (SVD) & Its Application In Recommender System')
 
 @st.experimental_memo
